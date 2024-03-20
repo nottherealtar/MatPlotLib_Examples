@@ -35,8 +35,11 @@ try:
         u = -1 + 0.1 * num  # Wind shifts from East to West
         v = 1 - 0.1 * num  # Wind shifts from South to North
 
-        # Create the quiver plot with longer arrows
-        Q = ax.quiver(x, y, z, u, v, w, color='r', length=0.2, normalize=True)
+        # Calculate the magnitude of the wind force
+        magnitude = np.sqrt(u**2 + v**2 + w**2)
+
+        # Create the quiver plot with longer arrows and color representing the wind force
+        Q = ax.quiver(x, y, z, u, v, w, color=plt.cm.jet(magnitude), length=0.2, normalize=True)
 
         return Q,
 
