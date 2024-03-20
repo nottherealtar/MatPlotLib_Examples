@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import tkinter as tk
-import itertools
 import logging
 import traceback
 
@@ -14,30 +13,31 @@ try:
 
     # Create the tkinter root window
     root = tk.Tk()
-    root.wm_title("Harmonic Carousel Visualization")
+    root.wm_title("Wind Simulation")
 
     # Create a figure and axes for the plot
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
     # Create a meshgrid for the x, y, and z values
-    x, y, z = np.meshgrid(np.arange(0, 2 * np.pi, .2), np.arange(0, 2 * np.pi, .2), np.arange(0, 2 * np.pi, .2))
+    x, y, z = np.meshgrid(np.arange(-1, 1, .2), np.arange(-1, 1, .2), np.arange(-1, 1, .2))
 
-    def update(num, x, y, z):
+    # Define the u, v, and w vectors for the wind
+    u = -1  # Wind is blowing from East to West
+    v = 1   # Wind is blowing from South to North
+    w = 0   # No vertical component
+
+    def update(num, x, y, z, u, v, w):
         # Clear the axes
         ax.clear()
-
-        # Update the u, v, and w vectors for the new frame
-        u = np.sin(2 * x * np.pi / 20 * (x + num))
-        v = np.cos(2 * y * np.pi / 25  * (x + num))
-        w = np.sin(2 * z * np.pi / 30 * (z + num))
 
         # Create the quiver plot with lines and arrows
         Q = ax.quiver(x, y, z, u, v, w, color='r', length=0.1, normalize=True)
 
         return Q,
 
-    ani = FuncAnimation(fig, update, fargs=(x, y, z), frames=itertools.count(), interval=100, blit=False, cache_frame_data=False)
+    # Use a finite number of frames for real-time plotting
+    ani = FuncAnimation(fig, update, fargs=(x, y, z, u, v, w), frames=100, interval=100, blit=False)
 
     # Create a canvas for the plot and add it to the tkinter window
     canvas = FigureCanvasTkAgg(fig, master=root)
