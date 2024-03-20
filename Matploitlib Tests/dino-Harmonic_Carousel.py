@@ -20,7 +20,7 @@ try:
     ax = fig.add_subplot(111, projection='3d')
 
     # Create a meshgrid for the x, y, and z values with larger step size for fewer arrows
-    x, y, z = np.meshgrid(np.arange(-1, 1, .4), np.arange(-1, 1, .4), np.arange(-1, 1, .4))
+    x, y, z = np.meshgrid(np.arange(-1, 1, .8), np.arange(-1, 1, .8), np.arange(-1, 1, .8))
 
     # Define the initial u, v, and w vectors for the wind
     u = -1  # Wind is blowing from East to West
