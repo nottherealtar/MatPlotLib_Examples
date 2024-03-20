@@ -4,4 +4,4 @@
 These projects demonstrate how to plot real-time data using Tkinter, matplotlib, etc in Python.
 
 ## Windsimulator is kinda cool
-<img src="./windsim.gif" alt="windsimscreenshot">
+<img src="./Code_eV4tEcUs3o.gif" alt="windsimscreenshot">
