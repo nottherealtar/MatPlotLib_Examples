@@ -32,7 +32,7 @@ try:
     colors = np.sqrt(u**2 + v**2 + w**2).flatten()
 
     # Create the quiver plot with lines and arrows
-    Q = ax.quiver(x, y, z, u, v, w, color=colors, length=0.1, normalize=True)
+    Q = ax.quiver(x, y, z, u, v, w, c=colors, cmap='viridis', length=0.1, normalize=True)
     
     # Create a canvas for the plot and add it to the tkinter window
     canvas = FigureCanvasTkAgg(fig, master=root)
