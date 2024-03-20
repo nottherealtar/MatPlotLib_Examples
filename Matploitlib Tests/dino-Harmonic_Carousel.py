@@ -22,22 +22,26 @@ try:
     # Create a meshgrid for the x, y, and z values
     x, y, z = np.meshgrid(np.arange(-1, 1, .2), np.arange(-1, 1, .2), np.arange(-1, 1, .2))
 
-    # Define the u, v, and w vectors for the wind
+    # Define the initial u, v, and w vectors for the wind
     u = -1  # Wind is blowing from East to West
     v = 1   # Wind is blowing from South to North
     w = 0   # No vertical component
 
-    def update(num, x, y, z, u, v, w):
+    def update(num, x, y, z):
         # Clear the axes
         ax.clear()
 
-        # Create the quiver plot with lines and arrows
-        Q = ax.quiver(x, y, z, u, v, w, color='r', length=0.1, normalize=True)
+        # Update the u and v components to simulate wind shifts
+        u = -1 + 0.1 * num  # Wind shifts from East to West
+        v = 1 - 0.1 * num  # Wind shifts from South to North
+
+        # Create the quiver plot with longer arrows
+        Q = ax.quiver(x, y, z, u, v, w, color='r', length=0.2, normalize=True)
 
         return Q,
 
     # Use a finite number of frames for real-time plotting
-    ani = FuncAnimation(fig, update, fargs=(x, y, z, u, v, w), frames=100, interval=100, blit=False)
+    ani = FuncAnimation(fig, update, fargs=(x, y, z), frames=100, interval=100, blit=False)
 
     # Create a canvas for the plot and add it to the tkinter window
     canvas = FigureCanvasTkAgg(fig, master=root)
