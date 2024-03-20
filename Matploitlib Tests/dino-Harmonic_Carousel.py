@@ -17,7 +17,12 @@ x, y = np.meshgrid(np.arange(0, 2 * np.pi, .2), np.arange(0, 2 * np.pi, .2))
 # Initialize the quiver plot with the u and v vectors
 u = np.sin(2 * x * np.pi / 20 * x)
 v = np.cos(2 * y * np.pi / 25  * x)
-Q = ax.quiver(x, y, u, v, pivot='mid', color='r', units='inches')
+
+# Create a color array for the arrows
+colors = np.sqrt(u**2 + v**2)
+
+# Create the quiver plot with lines and arrows
+Q = ax.quiver(x, y, u, v, colors, pivot='mid', units='inches')
 
 # Create a canvas for the plot and add it to the tkinter window
 canvas = FigureCanvasTkAgg(fig, master=root)
@@ -28,7 +33,9 @@ canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 def update(num):
     u = np.sin(2 * x * np.pi / 20 * (x + num))
     v = np.cos(2 * y * np.pi / 25  * (x + num))
+    colors = np.sqrt(u**2 + v**2)
     Q.set_UVC(u, v)
+    Q.set_array(colors)
     return Q,
 
 # Create the animation
@@ -36,5 +43,3 @@ ani = FuncAnimation(fig, update, frames=np.linspace(0, 2*np.pi, 200), interval=1
 
 # Start the tkinter main loop
 tk.mainloop()
-
-#nottherealtar
