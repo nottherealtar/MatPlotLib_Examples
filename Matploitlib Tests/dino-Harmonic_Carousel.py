@@ -45,8 +45,8 @@ try:
     directions = ['N', 'E', 'S', 'W']
     for i, direction in enumerate(directions):
         ax2.text(1.2 * np.cos(i * np.pi / 2), 1.2 * np.sin(i * np.pi / 2), 0, direction, ha='center')
-    def update(num, x, y, z):
         
+    def update(num, x, y, z, w):
     # Clear the axes
         ax1.clear()
         ax2.clear()
@@ -76,13 +76,13 @@ try:
     ax2.set_xlabel('X')
     ax2.set_ylabel('Y')
     ax2.set_zlabel('Z')
-    
+
     # Add the compass directions
     print("Creating compass directions...")
     directions = ['N', 'E', 'S', 'W']
     for i, direction in enumerate(directions):
         ax2.text(1.2 * np.cos(i * np.pi / 2), 1.2 * np.sin(i * np.pi / 2), 0, direction, ha='center')
-    
+        
     # Use a finite number of frames for real-time plotting
     print("Creating FuncAnimation...")
     ani = FuncAnimation(fig, update, fargs=(x, y, z), frames=100, interval=100, blit=False)
