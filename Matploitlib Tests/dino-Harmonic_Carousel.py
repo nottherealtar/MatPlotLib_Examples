@@ -10,14 +10,18 @@ import traceback
 
 try:
     # Set up logging
+    print("Setting up logging...")
     logging.basicConfig(level=logging.DEBUG)
 
     # Create the tkinter root window
+    print("Creating tkinter root window...")
     root = tk.Tk()
     root.wm_title("Wind Simulation")
 
-    # Create a figure and axes for the plot
+    print("Creating figure and axes...")
     fig = plt.figure(figsize=(10, 5))
+    ax1 = fig.add_subplot(121, projection='3d')
+    ax2 = fig.add_subplot(122, projection='3d')
 
     # Create the main 3D plot for the wind simulation
     ax1 = fig.add_subplot(121, projection='3d')
@@ -26,22 +30,26 @@ try:
     ax2 = fig.add_subplot(122, projection='3d')
 
     # Create a meshgrid for the x, y, and z values with larger step size for fewer arrows
+    print("Creating meshgrid...")
     x, y, z = np.meshgrid(np.arange(-1, 1, .8), np.arange(-1, 1, .8), np.arange(-1, 1, .8))
 
     # Define the initial u, v, and w vectors for the wind
+    print("Defining initial wind vectors...")
     u = -1  # Wind is blowing from East to West
-    v = 1   # Wind is blowing from South to North
-    w = 0   # No vertical component
+    v = 1  # Wind is blowing from South to North
+    w = 0 # No vertical component
+
 
     # Create the compass directions
+    print("Creating compass directions...")
     directions = ['N', 'E', 'S', 'W']
     for i, direction in enumerate(directions):
         ax2.text(1.2 * np.cos(i * np.pi / 2), 1.2 * np.sin(i * np.pi / 2), 0, direction, ha='center')
-
     def update(num, x, y, z):
+        
     # Clear the axes
-    ax1.clear()
-    ax2.clear()
+        ax1.clear()
+        ax2.clear()
 
     # Update the u and v components to simulate wind shifts
     u = -1 + 0.1 * np.sin(num / 10) + 0.1 * np.random.randn(*x.shape)  # Wind shifts from East to West with a slight wiggle
@@ -70,24 +78,25 @@ try:
     ax2.set_zlabel('Z')
 
     # Add the compass directions
+    print("Creating compass directions...")
+    directions = ['N', 'E', 'S', 'W']
     for i, direction in enumerate(directions):
         ax2.text(1.2 * np.cos(i * np.pi / 2), 1.2 * np.sin(i * np.pi / 2), 0, direction, ha='center')
-
-    return Q, compass,
-
     # Use a finite number of frames for real-time plotting
+    print("Creating FuncAnimation...")
     ani = FuncAnimation(fig, update, fargs=(x, y, z), frames=100, interval=100, blit=False)
 
-    # Create a canvas for the plot and add it to the tkinter window
+    print("Creating tkinter canvas...")
     canvas = FigureCanvasTkAgg(fig, master=root)
     canvas.draw()
     canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-
-    # Create a button to stop the animation and end the script
+    
+    print("Creating stop button...")
     stop_button = tk.Button(master=root, text='Stop', command=root.quit)
     stop_button.pack(side=tk.BOTTOM)
 
     # Start the tkinter main loop
+    print("Starting tkinter main loop...")
     tk.mainloop()
 
 except Exception as e:
