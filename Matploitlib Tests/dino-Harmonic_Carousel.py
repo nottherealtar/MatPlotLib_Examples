@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt  # For plotting
 from matplotlib.animation import FuncAnimation  # For creating animations
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg  # For embedding plots in tkinter windows
 import tkinter as tk  # For creating GUI
+import itertools
+
+
 
 # Create the tkinter root window
 root = tk.Tk()
@@ -52,7 +55,7 @@ def update(num):
 # 'frames' is the number of frames in the animation
 # 'interval' is the time between frames in milliseconds
 # 'blit' is set to True to only redraw the parts of the plot that have changed
-ani = FuncAnimation(fig, update, frames=np.linspace(0, 2*np.pi, 200), interval=100, blit=True)
+ani = FuncAnimation(fig, update, frames=itertools.count(), interval=100, blit=True)
 
 # Start the tkinter main loop
 # This starts the GUI and makes the window appear on the screen
