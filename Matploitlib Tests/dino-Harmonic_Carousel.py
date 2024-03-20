@@ -37,7 +37,7 @@ try:
 
         return Q,
 
-    ani = FuncAnimation(fig, update, fargs=(x, y, z), frames=itertools.count(), interval=100, blit=False)
+    ani = FuncAnimation(fig, update, fargs=(x, y, z), frames=itertools.count(), interval=100, blit=False, cache_frame_data=False)
 
     # Create a canvas for the plot and add it to the tkinter window
     canvas = FigureCanvasTkAgg(fig, master=root)
