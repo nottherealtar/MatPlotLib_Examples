@@ -23,30 +23,26 @@ try:
     # Create a meshgrid for the x, y, and z values
     x, y, z = np.meshgrid(np.arange(0, 2 * np.pi, .2), np.arange(0, 2 * np.pi, .2), np.arange(0, 2 * np.pi, .2))
 
-    # Initialize the u, v, and w vectors
-    u = np.sin(2 * x * np.pi / 20 * x)
-    v = np.cos(2 * y * np.pi / 25  * x)
-    w = np.sin(2 * z * np.pi / 30 * z)
+    def update(num, x, y, z):
+        # Clear the axes
+        ax.clear()
 
-    # Create the quiver plot with lines and arrows
-    Q = ax.quiver(x, y, z, u, v, w, color='r', length=0.1, normalize=True)
-    
-    # Create a canvas for the plot and add it to the tkinter window
-    canvas = FigureCanvasTkAgg(fig, master=root)
-    canvas.draw()
-    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-
-    def update(num, Q, x, y, z):
         # Update the u, v, and w vectors for the new frame
         u = np.sin(2 * x * np.pi / 20 * (x + num))
         v = np.cos(2 * y * np.pi / 25  * (x + num))
         w = np.sin(2 * z * np.pi / 30 * (z + num))
-        # Update the u, v, and w components of the quiver plot
-        Q.set_UVC(u, v, w)
+
+        # Create the quiver plot with lines and arrows
+        Q = ax.quiver(x, y, z, u, v, w, color='r', length=0.1, normalize=True)
 
         return Q,
 
-    ani = FuncAnimation(fig, update, fargs=(Q, x, y, z), frames=itertools.count(), interval=100, blit=True)
+    ani = FuncAnimation(fig, update, fargs=(x, y, z), frames=itertools.count(), interval=100, blit=False)
+
+    # Create a canvas for the plot and add it to the tkinter window
+    canvas = FigureCanvasTkAgg(fig, master=root)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
     # Start the tkinter main loop
     tk.mainloop()
