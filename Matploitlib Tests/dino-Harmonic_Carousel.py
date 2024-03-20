@@ -28,11 +28,8 @@ try:
     v = np.cos(2 * y * np.pi / 25  * x)
     w = np.sin(2 * z * np.pi / 30 * z)
 
-    # Flatten the colors array
-    colors = np.sqrt(u**2 + v**2 + w**2).flatten()
-
     # Create the quiver plot with lines and arrows
-    Q = ax.quiver(x, y, z, u, v, w, c=colors, cmap='viridis', length=0.1, normalize=True)
+    Q = ax.quiver(x, y, z, u, v, w, color='r', length=0.1, normalize=True)
     
     # Create a canvas for the plot and add it to the tkinter window
     canvas = FigureCanvasTkAgg(fig, master=root)
@@ -44,12 +41,8 @@ try:
         u = np.sin(2 * x * np.pi / 20 * (x + num))
         v = np.cos(2 * y * np.pi / 25  * (x + num))
         w = np.sin(2 * z * np.pi / 30 * (z + num))
-        # Update and flatten the color array for the new frame
-        colors = np.sqrt(u**2 + v**2 + w**2).flatten()
         # Update the u, v, and w components of the quiver plot
         Q.set_UVC(u, v, w)
-        # Update the colors of the quiver plot
-        Q.set_array(colors)
 
         return Q,
 
