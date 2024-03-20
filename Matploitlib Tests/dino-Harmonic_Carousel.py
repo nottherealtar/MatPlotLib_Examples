@@ -1,6 +1,7 @@
 # Import necessary libraries
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from matplotlib.animation import FuncAnimation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import tkinter as tk
@@ -32,6 +33,11 @@ try:
     v = 1   # Wind is blowing from South to North
     w = 0   # No vertical component
 
+    # Create the compass directions
+    directions = ['N', 'E', 'S', 'W']
+    for i, direction in enumerate(directions):
+        ax2.text(1.2 * np.cos(i * np.pi / 2), 1.2 * np.sin(i * np.pi / 2), 0, direction, ha='center')
+
     def update(num, x, y, z):
         # Clear the axes
         ax1.clear()
@@ -49,12 +55,16 @@ try:
 
         # Create the 3D compass
         compass = ax2.quiver(0, 0, 0, u, v, w, color='r', length=1.0)
-        ax2.set_xlim([-1, 1])
-        ax2.set_ylim([-1, 1])
+        ax2.set_xlim([-1.5, 1.5])
+        ax2.set_ylim([-1.5, 1.5])
         ax2.set_zlim([-1, 1])
         ax2.set_xlabel('X')
         ax2.set_ylabel('Y')
         ax2.set_zlabel('Z')
+
+        # Add the compass directions
+        for i, direction in enumerate(directions):
+            ax2.text(1.2 * np.cos(i * np.pi / 2), 1.2 * np.sin(i * np.pi / 2), 0, direction, ha='center')
 
         return Q, compass,
 
@@ -65,6 +75,10 @@ try:
     canvas = FigureCanvasTkAgg(fig, master=root)
     canvas.draw()
     canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
+    # Create a button to stop the animation and end the script
+    stop_button = tk.Button(master=root, text='Stop', command=root.quit)
+    stop_button.pack(side=tk.BOTTOM)
 
     # Start the tkinter main loop
     tk.mainloop()
