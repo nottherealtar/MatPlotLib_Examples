@@ -36,3 +36,5 @@ ani = FuncAnimation(fig, update, frames=np.linspace(0, 2*np.pi, 200), interval=1
 
 # Start the tkinter main loop
 tk.mainloop()
+
+#nottherealtar
