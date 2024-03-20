@@ -19,8 +19,8 @@ try:
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
-    # Create a meshgrid for the x, y, and z values
-    x, y, z = np.meshgrid(np.arange(-1, 1, .2), np.arange(-1, 1, .2), np.arange(-1, 1, .2))
+    # Create a meshgrid for the x, y, and z values with larger step size for fewer arrows
+    x, y, z = np.meshgrid(np.arange(-1, 1, .4), np.arange(-1, 1, .4), np.arange(-1, 1, .4))
 
     # Define the initial u, v, and w vectors for the wind
     u = -1  # Wind is blowing from East to West
@@ -32,8 +32,8 @@ try:
         ax.clear()
 
         # Update the u and v components to simulate wind shifts
-        u = -1 + 0.1 * num  # Wind shifts from East to West
-        v = 1 - 0.1 * num  # Wind shifts from South to North
+        u = -1 + 0.1 * np.sin(num / 10)  # Wind shifts from East to West
+        v = 1 - 0.1 * np.cos(num / 10)  # Wind shifts from South to North
 
         # Calculate the magnitude of the wind force
         magnitude = np.sqrt(u**2 + v**2 + w**2)
