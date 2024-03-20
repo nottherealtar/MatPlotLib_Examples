@@ -58,7 +58,17 @@ try:
         magnitude = np.sqrt(u**2 + v**2 + w**2)
 
         # Create the quiver plot with smaller arrow heads, longer arrows for stronger winds, and color representing the wind force
-        Q = ax1.quiver(x, y, z, u, v, w, color=plt.cm.viridis(magnitude), length=magnitude, normalize=True, headlength=4, headwidth=2)
+        # Calculate the mean magnitude
+        mean_magnitude = np.mean(magnitude)
+
+        # Generate a color based on the mean magnitude
+        color = plt.cm.viridis(mean_magnitude)
+
+        # Define the length of the arrows
+        length = 1.0
+
+        # Use the length in the quiver plot
+        Q = ax1.quiver(x, y, z, u, v, w, color=color, length=length, normalize=True, headlength=4, headwidth=2)
 
         # Create a topographical heatmap for the wind temperature
         temperature = np.random.uniform(low=0, high=1, size=x.shape)  # Replace with your temperature data
