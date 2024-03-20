@@ -39,38 +39,41 @@ try:
         ax2.text(1.2 * np.cos(i * np.pi / 2), 1.2 * np.sin(i * np.pi / 2), 0, direction, ha='center')
 
     def update(num, x, y, z):
-        # Clear the axes
-        ax1.clear()
-        ax2.clear()
+    # Clear the axes
+    ax1.clear()
+    ax2.clear()
 
-        # Update the u and v components to simulate wind shifts
-        u = -1 + 0.1 * np.sin(num / 10)  # Wind shifts from East to West
-        v = 1 - 0.1 * np.cos(num / 10)  # Wind shifts from South to North
+    # Update the u and v components to simulate wind shifts
+    u = -1 + 0.1 * np.sin(num / 10) + 0.1 * np.random.randn(*x.shape)  # Wind shifts from East to West with a slight wiggle
+    v = 1 - 0.1 * np.cos(num / 10) + 0.1 * np.random.randn(*x.shape)  # Wind shifts from South to North with a slight wiggle
 
-        # Calculate the magnitude of the wind force
-        magnitude = np.sqrt(u**2 + v**2 + w**2)
+    # Calculate the magnitude of the wind force
+    magnitude = np.sqrt(u**2 + v**2 + w**2)
 
-        # Create the quiver plot with longer arrows for stronger winds and color representing the wind force
-        Q = ax1.quiver(x, y, z, u, v, w, color=plt.cm.viridis(magnitude), length=magnitude, normalize=True)
+    # Create the quiver plot with smaller arrow heads, longer arrows for stronger winds, and color representing the wind force
+    Q = ax1.quiver(x, y, z, u, v, w, color=plt.cm.viridis(magnitude), length=magnitude, normalize=True, headlength=4, headwidth=2)
 
-        # Create a heatmap for the wind temperature
-        temperature = np.random.uniform(low=0, high=1, size=x.shape)  # Replace with your temperature data
-        ax1.imshow(temperature, cmap='coolwarm', interpolation='bilinear', alpha=0.5, extent=[-1, 1, -1, 1])
+    # Create a topographical heatmap for the wind temperature
+    temperature = np.random.uniform(low=0, high=1, size=x.shape)  # Replace with your temperature data
+    contour = ax1.contourf(x[:,:,0], y[:,:,0], temperature[:,:,0], cmap='coolwarm', alpha=0.5, levels=20)
 
-        # Create the 3D compass
-        compass = ax2.quiver(0, 0, 0, u, v, w, color='r', length=1.0)
-        ax2.set_xlim([-1.5, 1.5])
-        ax2.set_ylim([-1.5, 1.5])
-        ax2.set_zlim([-1, 1])
-        ax2.set_xlabel('X')
-        ax2.set_ylabel('Y')
-        ax2.set_zlabel('Z')
+    # Add labels to the contour levels
+    ax1.clabel(contour, inline=True, fontsize=8)
 
-        # Add the compass directions
-        for i, direction in enumerate(directions):
-            ax2.text(1.2 * np.cos(i * np.pi / 2), 1.2 * np.sin(i * np.pi / 2), 0, direction, ha='center')
+    # Create the 3D compass
+    compass = ax2.quiver(0, 0, 0, u, v, w, color='r', length=1.0)
+    ax2.set_xlim([-1.5, 1.5])
+    ax2.set_ylim([-1.5, 1.5])
+    ax2.set_zlim([-1, 1])
+    ax2.set_xlabel('X')
+    ax2.set_ylabel('Y')
+    ax2.set_zlabel('Z')
 
-        return Q, compass,
+    # Add the compass directions
+    for i, direction in enumerate(directions):
+        ax2.text(1.2 * np.cos(i * np.pi / 2), 1.2 * np.sin(i * np.pi / 2), 0, direction, ha='center')
+
+    return Q, compass,
 
     # Use a finite number of frames for real-time plotting
     ani = FuncAnimation(fig, update, fargs=(x, y, z), frames=100, interval=100, blit=False)
