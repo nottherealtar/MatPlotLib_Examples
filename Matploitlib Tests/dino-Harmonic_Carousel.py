@@ -37,7 +37,7 @@ try:
     print("Defining initial wind vectors...")
     u = -1  # Wind is blowing from East to West
     v = 1  # Wind is blowing from South to North
-    w = 0 # No vertical component
+    w = np.zeros_like(x)  # No vertical component
 
 
     # Create the compass directions
@@ -85,7 +85,7 @@ try:
         
     # Use a finite number of frames for real-time plotting
     print("Creating FuncAnimation...")
-    ani = FuncAnimation(fig, update, fargs=(x, y, z), frames=100, interval=100, blit=False)
+    ani = FuncAnimation(fig, update, fargs=(x, y, z, w), frames=100, interval=100, blit=False)
 
     print("Creating tkinter canvas...")
     canvas = FigureCanvasTkAgg(fig, master=root)
