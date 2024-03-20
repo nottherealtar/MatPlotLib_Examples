@@ -76,7 +76,7 @@ try:
         length = 1.0
 
         # Use the length in the quiver plot
-        Q = ax1.quiver(x, y, z, u, v, w, color=color, length=length, normalize=True, headwidth=2)
+        Q = ax1.quiver(x, y, z, u, v, w, color=color, length=length, normalize=True)
 
         # Create a topographical heatmap for the wind temperature
         temperature = np.random.uniform(low=0, high=1, size=x.shape)  # Replace with your temperature data
