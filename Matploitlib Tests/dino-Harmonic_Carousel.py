@@ -16,8 +16,13 @@ try:
     root.wm_title("Wind Simulation")
 
     # Create a figure and axes for the plot
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+    fig = plt.figure(figsize=(10, 5))
+
+    # Create the main 3D plot for the wind simulation
+    ax1 = fig.add_subplot(121, projection='3d')
+
+    # Create a subplot for the 3D compass
+    ax2 = fig.add_subplot(122, projection='3d')
 
     # Create a meshgrid for the x, y, and z values with larger step size for fewer arrows
     x, y, z = np.meshgrid(np.arange(-1, 1, .8), np.arange(-1, 1, .8), np.arange(-1, 1, .8))
@@ -29,7 +34,8 @@ try:
 
     def update(num, x, y, z):
         # Clear the axes
-        ax.clear()
+        ax1.clear()
+        ax2.clear()
 
         # Update the u and v components to simulate wind shifts
         u = -1 + 0.1 * np.sin(num / 10)  # Wind shifts from East to West
@@ -39,9 +45,18 @@ try:
         magnitude = np.sqrt(u**2 + v**2 + w**2)
 
         # Create the quiver plot with longer arrows and color representing the wind force
-        Q = ax.quiver(x, y, z, u, v, w, color=plt.cm.jet(magnitude), length=0.2, normalize=True)
+        Q = ax1.quiver(x, y, z, u, v, w, color=plt.cm.jet(magnitude), length=0.2, normalize=True)
 
-        return Q,
+        # Create the 3D compass
+        compass = ax2.quiver(0, 0, 0, u, v, w, color='r', length=1.0)
+        ax2.set_xlim([-1, 1])
+        ax2.set_ylim([-1, 1])
+        ax2.set_zlim([-1, 1])
+        ax2.set_xlabel('X')
+        ax2.set_ylabel('Y')
+        ax2.set_zlabel('Z')
+
+        return Q, compass,
 
     # Use a finite number of frames for real-time plotting
     ani = FuncAnimation(fig, update, fargs=(x, y, z), frames=100, interval=100, blit=False)
