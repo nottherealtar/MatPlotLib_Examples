@@ -21,14 +21,10 @@ x, y = np.meshgrid(np.arange(0, 2 * np.pi, .2), np.arange(0, 2 * np.pi, .2))
 u = np.sin(2 * x * np.pi / 20 * x)
 v = np.cos(2 * y * np.pi / 25  * x)
 
-# Create a color array for the arrows
-# The color is based on the magnitude of the vectors (sqrt(u^2 + v^2))
-colors = np.sqrt(u**2 + v**2)
+# Flatten the colors array
+colors = np.sqrt(u**2 + v**2).flatten()
 
 # Create the quiver plot with lines and arrows
-# The color of the arrows is set by the 'colors' array
-# 'pivot' is set to 'mid' to place the arrows at the middle of the grid points
-# 'units' is set to 'inches' to scale the arrows
 Q = ax.quiver(x, y, u, v, colors, pivot='mid', units='inches')
 
 # Create a canvas for the plot and add it to the tkinter window
@@ -42,8 +38,8 @@ def update(num):
     # Update the u and v vectors for the new frame
     u = np.sin(2 * x * np.pi / 20 * (x + num))
     v = np.cos(2 * y * np.pi / 25  * (x + num))
-    # Update the color array for the new frame
-    colors = np.sqrt(u**2 + v**2)
+    # Update and flatten the color array for the new frame
+    colors = np.sqrt(u**2 + v**2).flatten()
     # Update the u and v components of the quiver plot
     Q.set_UVC(u, v)
     # Update the colors of the quiver plot
