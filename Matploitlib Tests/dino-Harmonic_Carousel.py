@@ -50,8 +50,12 @@ try:
         # Calculate the magnitude of the wind force
         magnitude = np.sqrt(u**2 + v**2 + w**2)
 
-        # Create the quiver plot with longer arrows and color representing the wind force
-        Q = ax1.quiver(x, y, z, u, v, w, color=plt.cm.jet(magnitude), length=0.2, normalize=True)
+        # Create the quiver plot with longer arrows for stronger winds and color representing the wind force
+        Q = ax1.quiver(x, y, z, u, v, w, color=plt.cm.viridis(magnitude), length=magnitude, normalize=True)
+
+        # Create a heatmap for the wind temperature
+        temperature = np.random.uniform(low=0, high=1, size=x.shape)  # Replace with your temperature data
+        ax1.imshow(temperature, cmap='coolwarm', interpolation='bilinear', alpha=0.5, extent=[-1, 1, -1, 1])
 
         # Create the 3D compass
         compass = ax2.quiver(0, 0, 0, u, v, w, color='r', length=1.0)
